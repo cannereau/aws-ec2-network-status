@@ -5,24 +5,24 @@ $mac = GetMetadata("mac", $token);
 
 function GetMetadata($meta_name, $meta_token) {
 
-        $c = curl_init();
-        curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
-        if ($meta_token == "") {
-                curl_setopt($c, CURLOPT_URL, "http://169.254.169.254/latest/api/token");
-                curl_setopt($c, CURLOPT_HTTPHEADER, array("X-aws-ec2-metadata-token-ttl-seconds: 30"));
-                curl_setopt($c, CURLOPT_CUSTOMREQUEST, "PUT");
-        } else {
-                curl_setopt($c, CURLOPT_URL, "http://169.254.169.254/latest/meta-data/$meta_name");
-                curl_setopt($c, CURLOPT_HTTPHEADER, array("X-aws-ec2-metadata-token: $meta_token"));
-        }
-        $response = curl_exec($c);
-        $httpcode = intval(curl_getinfo($c, CURLINFO_HTTP_CODE));
-        curl_close($c);
-        if ($httpcode == 200) {
-                return $response;
-        } else {
-                return "";
-        }
+    $c = curl_init();
+    curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+    if ($meta_token == "") {
+            curl_setopt($c, CURLOPT_URL, "http://169.254.169.254/latest/api/token");
+            curl_setopt($c, CURLOPT_HTTPHEADER, array("X-aws-ec2-metadata-token-ttl-seconds: 30"));
+            curl_setopt($c, CURLOPT_CUSTOMREQUEST, "PUT");
+    } else {
+            curl_setopt($c, CURLOPT_URL, "http://169.254.169.254/latest/meta-data/$meta_name");
+            curl_setopt($c, CURLOPT_HTTPHEADER, array("X-aws-ec2-metadata-token: $meta_token"));
+    }
+    $response = curl_exec($c);
+    $httpcode = intval(curl_getinfo($c, CURLINFO_HTTP_CODE));
+    curl_close($c);
+    if ($httpcode == 200) {
+            return $response;
+    } else {
+            return "";
+    }
 
 }
 
